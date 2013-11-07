@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created using vQModerator's XML Generator by The Wizard of Osch for http://www.crystalcopy.nl //-->
+<!-- (Based on vQmod XML Generator by UKSB - http://www.opencart-extensions.co.uk) //-->
+<modification>
+	<id><![CDATA[This extension gives you the ability to set the currency of product price.]]></id>
+	<version><![CDATA[1.0]]></version>
+	<vqmver required="true"><![CDATA[2.4.0]]></vqmver>
+	<author><![CDATA[www.mast3rpee.tk]]></author>
+	<file path="admin/model/catalog/" name="product.php">
+		<operation error="abort" info="Add custom_field to insert and update query part 1">
+			<search position="iafter"><![CDATA[(float)$data['price'] . "']]></search>
+			<add><![CDATA[, currency = '" . $this->db->escape($data['currency']) . "']]></add>
+		</operation>
+	</file>
+	<file path="admin/controller/catalog/" name="product.php">
+		<operation error="abort" info="Define custom_field get language">
+			<search position="after" offset="1"><![CDATA[get('entry_price');]]></search>
+			<add><![CDATA[$this->data['entry_currency'] = $this->language->get('entry_currency');]]></add>
+		</operation>
+		<operation error="abort" info="Add custom_field to admin product form, part 1">
+			<search position="after"><![CDATA[$this->load->model('setting/store');]]></search>
+			<add><![CDATA[$this->load->model('localisation/currency');
+		
+$this->data['currencies'] = $this->model_localisation_currency->getCurrencies();
+
+if (isset($this->request->post['currency'])) {
+			$this->data['currency'] = $this->request->post['currency'];
+		} elseif (!empty($product_info)) {
+			$this->data['currency'] = $product_info['currency'];
+		} else {
+			$this->data['currency'] = '';
+		}]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/catalog/" name="product_form.tpl">
+		<operation error="abort" info="Add custom_field to the admin product form, part 2">
+			<search position="after" offset="2"><![CDATA["<?php echo $price; ?>" />]]></search>
+			<add><![CDATA[              <tr>
+                <td><?php echo $entry_currency; ?></td>
+                <td><select name="currency">
+                  <?php foreach ($currencies as $curr) { ?>
+                  <?php if ($curr['code'] == $currency) { ?>
+                  <option value="<?php echo $curr['code']; ?>" selected="selected"><?php echo $curr['title']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $curr['code']; ?>"><?php echo $curr['title']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+				</select></td>
+              </tr>
+]]></add>
+		</operation>
+	</file>
+	<file path="admin/language/english/catalog/" name="product.php">
+		<operation error="abort" info="Add custom_field name in admin english">
+			<search position="after" offset="1"><![CDATA[// Heading]]></search>
+			<add><![CDATA[$_['currency']           = 'currency';]]></add>
+		</operation>
+		<operation error="abort" info="Add custom_field label in admin english">
+			<search position="before" offset="1"><![CDATA[$_['entry_reward']]]></search>
+			<add><![CDATA[$_['entry_currency']     = 'Currency';]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/product/" name="product.php">
+		<operation error="abort" info="Add custom_field to catalog controller product page, part 1">
+			<search position="before" offset="2"><![CDATA[$this->data['price'] = $this->currency->format]]></search>
+			<add><![CDATA[$this->data['currency']   = $product_info['currency'];]]></add>
+		</operation>
+		<operation error="abort" info="Add custom_field to catalog controller product page, part 2">
+			<search position="after" offset="1"><![CDATA[get('entry_name');]]></search>
+			<add><![CDATA[$this->data['entry_currency'] = $this->language->get('entry_currency');]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/product/" name="category.php">
+		<operation error="abort" info="Add custom_field to catalog controller category page, part 1">
+			<search position="after" offset="1"><![CDATA[get('text_model');]]></search>
+			<add><![CDATA[$this->data['text_currency'] = $this->language->get('text_currency');]]></add>
+		</operation>
+		<operation error="abort" info="Add custom_field to catalog controller category page, part 2">
+			<search position="after" offset="1"><![CDATA['price'       => $price,]]></search>
+			<add><![CDATA['currency' => $result['currency'],]]></add>
+		</operation>
+	</file>
+	<file path="catalog/model/catalog/" name="product.php">
+		<operation error="log" info="Convert price back to default">
+			<search position="before" offset="1"><![CDATA['product_id'       => $query->row['product_id']]]></search>
+			<add><![CDATA[			$this->load->model('localisation/currency');
+			$query->row['price'] = $this->currency->convert($query->row['price'], $query->row['currency'], $this->currency->getCode());
+			$query->row['discount'] = $this->currency->convert($query->row['discount'], $query->row['currency'], $this->currency->getCode());
+			]]></add>
+		</operation>
+		<operation error="abort" info="Convert currency back in discounts, part 1">
+			<search position="replace"><![CDATA["SELECT * FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$customer_group_id . "' AND quantity > 1 AND ((date_start = '0000-00-00' OR date_start < NOW()) AND (date_end = '0000-00-00' OR date_end > NOW())) ORDER BY quantity ASC, priority ASC, price ASC"]]></search>
+			<add><![CDATA["SELECT pd.*, p.currency FROM " . DB_PREFIX . "product_discount pd JOIN " . DB_PREFIX . "product p ON (p.product_id = pd.product_id) WHERE pd.product_id = '" . (int)$product_id . "' AND pd.customer_group_id = '" . (int)$customer_group_id . "' AND pd.quantity > 1 AND ((pd.date_start = '0000-00-00' OR pd.date_start < NOW()) AND (pd.date_end = '0000-00-00' OR pd.date_end > NOW())) ORDER BY quantity ASC, priority ASC, price ASC"]]></add>
+		</operation>
+		<operation error="log" info="Convert currency back in discounts, part 2">
+			<search position="after"><![CDATA["SELECT pd.*, p.currency FROM " . DB_PREFIX]]></search>
+			<add><![CDATA[		foreach($query->rows as $k => $v)
+		{
+			$query->rows[$k]['price'] = $this->currency->convert($query->rows[$k]['price'], $query->rows[$k]['currency'], $this->currency->getCode());
+		}
+]]></add>
+		</operation>
+		<operation error="log" info="Add custom_field to catalog model product page">
+			<search position="after"><![CDATA['product_id'       => $query->row['product_id']]]></search>
+			<add><![CDATA[				'currency'         => $query->row['currency'],]]></add>
+		</operation>
+	</file>
+	<file path="catalog/language/english/product/" name="category.php">
+		<operation error="abort" info="Add custom_field catalog names to English">
+			<search position="before" offset="1"><![CDATA[$_['text_points']]]></search>
+			<add><![CDATA[$_['text_currency'] = 'Currency:';]]></add>
+		</operation>
+	</file>
+	<file path="system/library/" name="cart.php">
+		<operation error="log" info="Convert currency in cart, part 1">
+			<search position="after"><![CDATA[$this->weight = $registry->get('weight');]]></search>
+			<add><![CDATA[		$this->currency = $registry->get('currency');]]></add>
+		</operation>
+		<operation error="log" info="Convert currency in cart, part 2">
+			<search position="after"><![CDATA[$product_query = $this]]></search>
+			<add><![CDATA[					$currency = $product_query->row['currency'];
+					$product_query->row['price'] = $this->currency->convert($product_query->row['price'], $currency, $this->currency->getCode());]]></add>
+		</operation>
+		<operation error="log" info="Convert currency in cart, part 3">
+			<search position="replace"><![CDATA[$product_discount_query->row['price']]]></search>
+			<add><![CDATA[$this->currency->convert($product_discount_query->row['price'], $currency, $this->currency->getCode())]]></add>
+		</operation>
+		<operation error="log" info="Convert currency in cart, part 4">
+			<search position="replace"><![CDATA[$product_special_query->row['price']]]></search>
+			<add><![CDATA[$this->currency->convert($product_special_query->row['price'], $currency, $this->currency->getCode())]]></add>
+		</operation>
+	</file>
+</modification>

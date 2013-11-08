@@ -8,7 +8,7 @@ Supports discrounts but does not support specials.
 #### Install ####
 
 1. [Dowload][1] and install [VQMod][2]
-2. Copy contents of upload folder to opencart directory
+2. [Download][3] rar archive and copy contents of upload folder to opencart directory
 
 #### TODO ####
 
@@ -18,5 +18,6 @@ Supports discrounts but does not support specials.
 *   Add support for amazonaws
 *   Add support for play
 
-   [1]: https://code.google.com/p/vqmod/                               "VQMod Home Page"
-   [2]: https://code.google.com/p/vqmod/wiki/Install_OpenCart          "VQMod Install Instructions"
+   [1]: https://code.google.com/p/vqmod/                                            "VQMod Home Page"
+   [2]: https://code.google.com/p/vqmod/wiki/Install_OpenCart                       "VQMod Install Instructions"
+   [3]: https://github.com/mAsT3RpEE/Opencart/archive/product_option_currency.zip   "Download"

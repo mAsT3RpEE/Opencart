@@ -17,3 +17,6 @@ Supports discrounts but does not support specials.
 *   Add support for ebay
 *   Add support for amazonaws
 *   Add support for play
+
+   [1]: https://code.google.com/p/vqmod/                               "VQMod Home Page"
+   [2]: https://code.google.com/p/vqmod/wiki/Install_OpenCart          "VQMod Install Instructions"

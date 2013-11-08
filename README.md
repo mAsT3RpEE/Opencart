@@ -1,9 +1,9 @@
 product_option_currency
 =======================
 
-VQMod extention that lets you choose the currency of the price of a product.
+VQMod extension that lets you choose the currency of the price of a product.
 
-Supports discrounts but does not support specials.
+Supports discounts but does not support specials.
 
 #### Install ####
 

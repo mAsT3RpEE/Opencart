@@ -6,8 +6,12 @@ Opencart Libraries and Extentions used by [mAsT3RpEE's Zone][1]
 
 #### Install ####
 
-1. [Dowload][2] and install [VQMod][3]
-2. [Download][4] archive and copy contents of upload folder to opencart directory
+1.  [Dowload][2] and install [VQMod][3]
+2.  Add currency column to products table
+    
+    > ALTER TABLE oc_product ADD currency VARCHAR( 3 ) NOT NULL AFTER price;
+    
+3.  [Download][4] archive and copy contents of upload folder to opencart directory
 
 
 #### TODO ####

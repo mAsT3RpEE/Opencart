@@ -7,7 +7,7 @@ Opencart Libraries and Extentions used by [mAsT3RpEE's Zone][1]
 #### Install ####
 
 1. [Dowload][2] and install [VQMod][3]
-2. Copy contents of upload folder to opencart directory
+2. [Download][4] archive and copy contents of upload folder to opencart directory
 
 
 #### TODO ####
@@ -32,6 +32,7 @@ Extentions
     VQMod that adds yahoo finance API functionality to OpenCart
 
 
-   [1]: http://mast3rpee.tk                                            "mAsT3RpEE's Zone"
-   [2]: https://code.google.com/p/vqmod/                               "VQMod Home Page"
-   [3]: https://code.google.com/p/vqmod/wiki/Install_OpenCart          "VQMod Install Instructions"
+   [1]: http://mast3rpee.tk                                                         "mAsT3RpEE's Zone"
+   [2]: https://code.google.com/p/vqmod/                                            "VQMod Home Page"
+   [3]: https://code.google.com/p/vqmod/wiki/Install_OpenCart                       "VQMod Install Instructions"
+   [4]: https://github.com/mAsT3RpEE/Opencart/archive/product_option_currency.zip   "Download"

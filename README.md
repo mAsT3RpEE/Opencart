@@ -8,7 +8,11 @@ Supports discounts but does not support specials.
 #### Install ####
 
 1. [Download][1] and install [VQMod][2]
-2. [Download][3] archive and copy contents of upload folder to opencart directory
+2. Add currency column to products table
+   
+   > ALTER TABLE oc_product ADD currency VARCHAR( 3 ) NOT NULL AFTER price;
+
+3. [Download][3] archive and copy contents of upload folder to opencart directory
 
 #### TODO ####
 

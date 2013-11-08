@@ -7,8 +7,8 @@ Supports discounts but does not support specials.
 
 #### Install ####
 
-1. [Dowload][1] and install [VQMod][2]
-2. [Download][3] rar archive and copy contents of upload folder to opencart directory
+1. [Download][1] and install [VQMod][2]
+2. [Download][3] archive and copy contents of upload folder to opencart directory
 
 #### TODO ####
 
